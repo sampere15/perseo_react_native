@@ -1,12 +1,12 @@
-import React from 'react'
-import { View, Text } from 'react-native'
+import React from "react";
+import { ScrollView } from "react-native";
 
-const Login = () => {
+import LoginForm from "../components/auth/login/LoginForm";
+
+export default function Login() {
   return (
-    <View>
-      <Text>Login</Text>
-    </View>
-  )
-}
-
-export default Login
+    <ScrollView>
+      <LoginForm />
+    </ScrollView>
+  );
+};

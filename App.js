@@ -6,5 +6,5 @@ import Navigation from "./app/navigation/Navigation";
 import Login from "./app/screens/Login";
 
 export default function App() {
-  return <Navigation></Navigation>;
+  return <Navigation />;
 }
