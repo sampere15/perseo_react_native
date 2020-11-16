@@ -1,14 +1,33 @@
 import React, { useState } from 'react';
 import { View, StyleSheet, Image } from "react-native";
 import { Input, Button, Icon } from "react-native-elements";
+import md5 from "md5";
+
+//  Redux
+import { useDispatch } from "react-redux";
+import { loginAction } from "../../../redux/actions/authActions";
 
 export default function LoginForm() {
-  const [showPassword, setShowPassword] = useState(false);
+  const dispatch = useDispatch();
+  const [email, setEmail] = useState("developer@perseo.tv");
+  const [password, setPassword] = useState("dev");
+
+  const onSubmit = () => {
+    console.log("submit");
+    //  Set user data
+    const userData = {
+      user: email,
+      pass: md5(password),
+      device: "Android"
+    };
+    //  Call action to loging with user data
+    dispatch(loginAction(userData))
+  }
 
   return (
     <View style={styles.loginFormContainer}>
       <Input
-        placeholder='Correo electrónico'
+        placeholder='Email'
         containerStyle={styles.inputForm}
         value="developer@perseo.tv"
         rightIcon={
@@ -18,14 +37,14 @@ export default function LoginForm() {
           />}
       />
       <Input
-        placeholder='Contraseña'
+        placeholder='Password'
         containerStyle={styles.inputForm}
         secureTextEntry={false}
         value="dev"
         rightIcon={
           <Icon
             type='material-community'
-            name={showPassword ? "eye-off-outline" : "eye-outline"}
+            name={true ? "eye-off-outline" : "eye-outline"}
             // iconStyle={styles.inputIcon}
           />
         }
@@ -39,10 +58,6 @@ export default function LoginForm() {
     </View>
   );
 };
-
-const onSubmit = () => {
-  console.log("submit");
-}
 
 const styles = StyleSheet.create({
   loginFormContainer: {
