@@ -31,7 +31,7 @@ export default function authReducer(state = initialState, action) {
       };
     case LOGOUT:
       //  Delete auth token
-      localStorage.removeItem("token");
+      // localStorage.removeItem("token");
       return {
         ...state,
         auth: false,

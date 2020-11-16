@@ -18,7 +18,6 @@ export function loginAction(userData) {
       bodyFormData.append("device", userData.device);
 
       let result = await axiosClient.post("/Login.php", bodyFormData);
-      console.log(result.data);
 
       //  Checking no error on response
       if (!result.data.error) {
