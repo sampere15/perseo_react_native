@@ -3,6 +3,9 @@ import { Icon } from 'react-native-elements';
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
+//  Redux
+import { useSelector } from "react-redux";
+
 //  Import stacks
 import HomeStack from "./stacks/HomeStack";
 import FavsStack from "./stacks/FavsStack";
@@ -12,11 +15,15 @@ import AccountStack from "./stacks/AccountStack";
 import Login from "../screens/Login";
 
 const Tab = createBottomTabNavigator();
-const auth = false;
 
 export default function Navigation() {
+  //  Recover auth from redux
+  const { auth } = useSelector(state => state.auth);
+  console.log(auth);
+
   return (
     <NavigationContainer>
+    {/* Check if user is logged or not */}
     {auth
     ?
       <Tab.Navigator
