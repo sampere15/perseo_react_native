@@ -12,7 +12,7 @@ import AccountStack from "./stacks/AccountStack";
 import Login from "../screens/Login";
 
 const Tab = createBottomTabNavigator();
-const auth = true;
+const auth = false;
 
 export default function Navigation() {
   return (
