@@ -4,11 +4,14 @@ import { Input, Button, Icon } from "react-native-elements";
 import md5 from "md5";
 
 //  Redux
-import { useDispatch } from "react-redux";
-import { loginAction } from "../../../redux/actions/authActions";
+import { useDispatch, useSelector } from "react-redux";
+import { loginAction } from "../../redux/actions/authActions";
 
 export default function LoginForm() {
+  //  Redux
   const dispatch = useDispatch();
+  const { loading } = useSelector(state => state.auth);
+
   const [email, setEmail] = useState("developer@perseo.tv");
   const [password, setPassword] = useState("dev");
 
@@ -54,6 +57,7 @@ export default function LoginForm() {
         containerStyle={styles.btnContainerLogin}
         buttonStyle={styles.btnLogin}
         onPress={onSubmit}
+        loading={loading}
       />
     </View>
   );
