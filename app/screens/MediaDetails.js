@@ -3,6 +3,7 @@ import { View, Text, ScrollView, StyleSheet, ActivityIndicator } from 'react-nat
 import { Rating, Divider } from "react-native-elements";
 import axiosClient from "../utils/axios";
 import tokenManager from "../utils/tokenManager";
+import { Video } from "expo-av";
 
 //  Mock data for testing
 import mockData from "../mockData/mockMedia2";
@@ -12,6 +13,7 @@ export default function MediaDetails(props) {
   const {itemId} = props.route.params;
   const [downloading, setDownloading] = useState(true);
   const [item, setItem] = useState(null);
+  const [videoRotation, setVideoRotation] = useState(0);
 
   useEffect(() => {
     downloadMedia();
@@ -33,7 +35,7 @@ export default function MediaDetails(props) {
 
       // const {data} = await axiosClient.getMediaInfo(formData);
       const data = mockData;
-      console.log(data);
+      // console.log(data);
       setItem(data);
 
       setDownloading(false);
@@ -51,7 +53,15 @@ export default function MediaDetails(props) {
   return (
     <View style={styles.container}>
       <View style={styles.videoContainer}>
-      
+        <Video
+          source={{ uri: "'http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4'" }}
+          rate={1.0}
+          volume={1.0}
+          isMuted={false}
+          resizeMode="cover"
+          useNativeControls={true}
+          style={{ height: "100%"}}
+        />
       </View>
       <ScrollView style={styles.infoContainer}>
         <View style={styles.mainInfo}>
@@ -60,7 +70,6 @@ export default function MediaDetails(props) {
             <Rating 
               imageSize={15}
               readonly
-              // startingValue="{3.3}" 
               startingValue={item.votes*5/item.totalVotes}
             />
           </View>
@@ -94,7 +103,9 @@ const styles = StyleSheet.create({
   },
   videoContainer: {
     flex: 1,
-    backgroundColor: "orange",
+    // alignItems: "center",
+    // justifyContent: "center",
+    // backgroundColor: "orange",
   },
   infoContainer: {
     flex: 1,
@@ -124,5 +135,12 @@ const styles = StyleSheet.create({
   descriptionInfo: {
     flex: 2,
     marginTop: 5,
+  },
+  backgroundVideo: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    bottom: 0,
+    right: 0,
   },
 });
