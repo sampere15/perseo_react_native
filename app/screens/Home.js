@@ -7,7 +7,7 @@ import MediaList from "../components/media/MediaList";
 import { useSelector, useDispatch } from "react-redux";
 import { getFilesAction } from "../redux/actions/mediaActions";
 
-const Home = () => {
+export default function Home({navigation}) {
   const dispatch = useDispatch();
   const { downloading } = useSelector( state => state.media);
 
@@ -18,9 +18,11 @@ const Home = () => {
 
   return (
     <View>
-      <MediaList height={200} />
+      <MediaList 
+        navigation={navigation}
+        height={200} 
+      />
+      <Loading isVisible={downloading} text="Downloading data..." />
     </View>
   );
 };
-
-export default Home;
