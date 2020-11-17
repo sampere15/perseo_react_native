@@ -3,7 +3,7 @@ import { View, Text } from "react-native";
 
 import Logout from "../components/auth/Logout";
 
-const Account = () => {
+export default function Account() {
   return (
     <View>
       <Text>Account</Text>
@@ -11,5 +11,3 @@ const Account = () => {
     </View>
   );
 };
-
-export default Account;

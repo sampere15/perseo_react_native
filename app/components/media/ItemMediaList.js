@@ -2,7 +2,7 @@ import React from 'react'
 import { View, Text, TouchableOpacity, TouchableHighlight, Touch, StyleSheet, ActivityIndicator, TouchableNativeFeedback} from 'react-native';
 import { Card, Image } from "react-native-elements";
 
-export default function ItemMediaList({item, height}) {
+export default function ItemMediaList({navigation, item, height}) {
   //  Calculate the width for the given height
   const width = 9/16*height;
 
@@ -17,7 +17,10 @@ export default function ItemMediaList({item, height}) {
   });
 
   return (
-    <TouchableOpacity style={styles.cardContainer}>
+    <TouchableOpacity 
+      style={styles.cardContainer}
+      onPress={() => navigation.navigate("mediadetails", { itemId: item.id })}
+    >
       <Image 
         source={{ uri: item.cover }}
         style={styles.image}
