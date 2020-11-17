@@ -2,7 +2,7 @@ import * as SecureStore from 'expo-secure-store';
 
 const TOKEN = "token";
 
-export default manageToken = {
+export default tokenManager = {
   //  To store token in the SecureStore
   storeTokenSecureStore: async (token) => {
     return await SecureStore.setItemAsync(TOKEN, token);

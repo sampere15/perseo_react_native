@@ -9,34 +9,32 @@ import {
 } from "../actionTypes/mediaTypes";
 
 //  Import Mock data for testing
-import mockData from "../../mockData/mockMedia";
+// import mockData from "../../mockData/mockMedia";
 
 import axiosClient from "../../utils/axios";
 import { logoutAction } from "./authActions";
-import manageToken from "../../utils/manageToken";
+import tokenManager from "../../utils/tokenManager";
 
 //  Action for download files for the main page
 export function getFilesAction() {
   return async (dispatch) => {
     try {
       //  Recover token
-      const token = await manageToken.getTokenSecureStore();
+      const token = await tokenManager.getTokenSecureStore();
 
       //  To show loading spineer
       dispatch({
         type: DOWNLOADING,
       });
 
-      // //  Preparing post data
-      // const bodyFormData = new FormData();
-      // bodyFormData.append("token", token);
-      // bodyFormData.append("device", "Web");
-      // const { data } = await axiosClient.post("/GetView.php", bodyFormData);
-
-      // console.log(data);
+      //  Preparing post data
+      const bodyFormData = new FormData();
+      bodyFormData.append("token", token);
+      bodyFormData.append("device", "Web");
+      const { data } = await axiosClient.post("/GetView.php", bodyFormData);
 
       //  My Mock Data for testing
-      const data = mockData;
+      // const data = mockData;
 
       dispatch({
         type: DOWNLOADING_SUCCESS,

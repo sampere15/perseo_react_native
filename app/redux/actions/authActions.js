@@ -1,7 +1,7 @@
 import { LOADING, LOGIN_SUCCESS, LOGIN_ERROR, LOGOUT } from "../actionTypes/authTypes";
 
 import axiosClient from "../../utils/axios";
-import manageToken from "../../utils/manageToken";
+import tokenManager from "../../utils/tokenManager";
 
 //  Action for login
 export function loginAction(userData) {
@@ -23,7 +23,7 @@ export function loginAction(userData) {
       //  Checking no error on response
       if (!data.error) {
         //  Store auth token needed for API request
-        await manageToken.storeTokenSecureStore(data.token);
+        await tokenManager.storeTokenSecureStore(data.token);
 
         dispatch({
           type: LOGIN_SUCCESS,
@@ -47,7 +47,7 @@ export function loginAction(userData) {
 //  Function for logout
 export function logoutAction() {
   return async (dispatch) => {
-    await manageToken.deleteTokenSecureStore();
+    await tokenManager.deleteTokenSecureStore();
     //  Send the dispatch to delete the token
     dispatch({
       type: LOGOUT,
