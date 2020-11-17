@@ -11,14 +11,13 @@ export default function ItemMediaList({navigation, item, height}) {
       height: "100%",
       width: width,
       borderRadius: 5,
-      resizeMode: "contain",
+      resizeMode: "cover",
       margin: 1,
-    }
+    },
   });
 
   return (
     <TouchableOpacity 
-      style={styles.cardContainer}
       onPress={() => navigation.navigate("mediadetails", { itemId: item.id })}
     >
       <Image 
@@ -29,32 +28,3 @@ export default function ItemMediaList({navigation, item, height}) {
     </TouchableOpacity>
   );
 }
-
-// export default function ItemMediaList({item}) {
-
-//   return (
-//     <TouchableHighlight style={styles.cardContainer}>
-//       <Image 
-//         source={{ uri: item.cover }}
-//         style={styles.image}
-//         resizeMode={"contain"}
-//         PlaceholderContent={<ActivityIndicator />}
-//       />
-//     </TouchableHighlight>
-//   );
-// }
-
-// const styles = StyleSheet.create({
-//   cardContainer: {
-//     margin: 2,
-//     padding: 0,
-//     width: 100,
-//     // height: "100",
-//     backgroundColor: "orange"
-//   },
-
-//   image: {
-//     height: "100%",
-//     borderRadius: 5,
-//   }
-// });
