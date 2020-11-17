@@ -16,7 +16,6 @@ export default function LoginForm() {
   const [password, setPassword] = useState("dev");
 
   const onSubmit = () => {
-    console.log("submit");
     //  Set user data
     const userData = {
       user: email,

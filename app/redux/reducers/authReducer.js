@@ -1,4 +1,5 @@
 import { LOADING, LOGIN_SUCCESS, LOGIN_ERROR, LOGOUT } from "../actionTypes/authTypes";
+import * as SecureStore from 'expo-secure-store';
 
 const initialState = {
   loading: false, //  waiting for the loggin response
@@ -22,7 +23,7 @@ export default function authReducer(state = initialState, action) {
       };
     case LOGIN_SUCCESS:
       //  Store auth token needed for API request
-      // localStorage.setItem("token", action.payload.token);
+      SecureStore.setItemAsync("token", action.payload.token);
       return {
         ...state,
         loading: false,
@@ -31,7 +32,7 @@ export default function authReducer(state = initialState, action) {
       };
     case LOGOUT:
       //  Delete auth token
-      // localStorage.removeItem("token");
+      SecureStore.deleteItemAsync("token");
       return {
         ...state,
         auth: false,

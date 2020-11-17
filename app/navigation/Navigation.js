@@ -19,7 +19,7 @@ const Tab = createBottomTabNavigator();
 export default function Navigation() {
   //  Recover auth from redux
   const { auth } = useSelector(state => state.auth);
-  console.log(auth);
+  // console.log(auth);
 
   return (
     <NavigationContainer>
