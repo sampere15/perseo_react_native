@@ -8,14 +8,18 @@ export default function MediaList({navigation, title, files, height = 180}) {
   //  We pass the height of the component passed via props
   const styles = height => StyleSheet.create({
     flatListContainer: {
-      backgroundColor: "green",
+      // backgroundColor: "green",
       height: height,
-    }
+    },
   });
+
+  if(files.length === 0) {
+    return null;
+  }
 
   return (
     <View>
-      <Text>{title}</Text>
+      <Text style={{fontSize: 15}}>{title}</Text>
       <FlatList 
         data={files}
         keyExtractor={(item, index) => index.toString()}
