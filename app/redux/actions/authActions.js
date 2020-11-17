@@ -1,6 +1,7 @@
 import { LOADING, LOGIN_SUCCESS, LOGIN_ERROR, LOGOUT } from "../actionTypes/authTypes";
 
 import axiosClient from "../../utils/axios";
+import manageToken from "../../utils/manageToken";
 
 //  Action for login
 export function loginAction(userData) {
@@ -17,24 +18,24 @@ export function loginAction(userData) {
       bodyFormData.append("pass", userData.pass);
       bodyFormData.append("device", userData.device);
 
-      let result = await axiosClient.post("/Login.php", bodyFormData);
+      const {data} = await axiosClient.post("/Login.php", bodyFormData);
 
       //  Checking no error on response
-      if (!result.data.error) {
+      if (!data.error) {
+        //  Store auth token needed for API request
+        await manageToken.storeTokenSecureStore(data.token);
+
         dispatch({
           type: LOGIN_SUCCESS,
-          payload: result.data,
         });
       } else {
         dispatch({
           type: LOGIN_ERROR,
-          payload: result.data.message,
+          payload: data.message,
         });
       }
     } catch (error) {
       console.log(error);
-      //  Hide "sending data"
-      Swal.close();
       //  Call action that show the error
       dispatch({
         type: LOGIN_ERROR,
@@ -45,7 +46,8 @@ export function loginAction(userData) {
 
 //  Function for logout
 export function logoutAction() {
-  return (dispatch) => {
+  return async (dispatch) => {
+    await manageToken.deleteTokenSecureStore();
     //  Send the dispatch to delete the token
     dispatch({
       type: LOGOUT,

@@ -9,40 +9,39 @@ import {
 } from "../actionTypes/mediaTypes";
 
 //  Import Mock data for testing
-// import mockData from "../../mocks/mockData";
+import mockData from "../../mockData/mockMedia";
 
 import axiosClient from "../../utils/axios";
 import { logoutAction } from "./authActions";
+import manageToken from "../../utils/manageToken";
 
 //  Action for download files for the main page
 export function getFilesAction() {
   return async (dispatch) => {
     try {
-      //  Check if we dont have token, lets log out
-      const token = localStorage.getItem("token");
-      if (token === null) {
-        dispatch(logoutAction());
-        return;
-      }
+      //  Recover token
+      const token = await manageToken.getTokenSecureStore();
+      console.log(token);
 
       //  To show loading spineer
       dispatch({
         type: DOWNLOADING,
       });
 
-      //  Preparing post data
-      const bodyFormData = new FormData();
-      bodyFormData.append("token", token);
-      bodyFormData.append("device", "Web");
-      const res = await axiosClient.post("/GetView.php", bodyFormData);
+      // //  Preparing post data
+      // const bodyFormData = new FormData();
+      // bodyFormData.append("token", token);
+      // bodyFormData.append("device", "Web");
+      // const { data } = await axiosClient.post("/GetView.php", bodyFormData);
+
+      // console.log(data);
 
       //  My Mock Data for testing
-      // let res = {};
-      // res.data = mockData;
+      const data = mockData;
 
       dispatch({
         type: DOWNLOADING_SUCCESS,
-        payload: res.data,
+        payload: data,
       });
     } catch (error) {
       console.log(error);
