@@ -21,7 +21,6 @@ export function getFilesAction() {
     try {
       //  Recover token
       const token = await manageToken.getTokenSecureStore();
-      console.log(token);
 
       //  To show loading spineer
       dispatch({
