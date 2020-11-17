@@ -13,14 +13,14 @@ import mockData from "../../mockData/mockMedia";
 
 import axiosClient from "../../utils/axios";
 import { logoutAction } from "./authActions";
-import manageToken from "../../utils/manageToken";
+import tokenManager from "../../utils/tokenManager";
 
 //  Action for download files for the main page
 export function getFilesAction() {
   return async (dispatch) => {
     try {
       //  Recover token
-      const token = await manageToken.getTokenSecureStore();
+      const token = await tokenManager.getTokenSecureStore();
 
       //  To show loading spineer
       dispatch({
@@ -32,8 +32,6 @@ export function getFilesAction() {
       // bodyFormData.append("token", token);
       // bodyFormData.append("device", "Web");
       // const { data } = await axiosClient.post("/GetView.php", bodyFormData);
-
-      // console.log(data);
 
       //  My Mock Data for testing
       const data = mockData;

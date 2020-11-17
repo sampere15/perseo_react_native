@@ -6,7 +6,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 //  Redux
 import { useSelector } from "react-redux";
 
-import manageToken from "../utils/manageToken";
+import tokenManager from "../utils/tokenManager";
 
 //  Import stacks
 import HomeStack from "./stacks/HomeStack";
@@ -22,10 +22,7 @@ export default function Navigation() {
   //  Recover auth from redux
   const { auth } = useSelector(state => state.auth);
   // Recover token from storage
-  const token = manageToken.getTokenSecureStore();
-
-  // console.log(auth);
-  // cons token = await manageToken.getTokenSecureStore();
+  const token = tokenManager.getTokenSecureStore();
 
   return (
     <NavigationContainer>

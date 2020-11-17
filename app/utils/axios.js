@@ -11,6 +11,9 @@ const axiosClient = {
   post: (url, data) => {
     return instance.post(API + url, data);
   },
+  getMediaInfo: (formData) => {
+    return instance.post(`${API}/Play.php`, formData);
+  },
 };
 
 export default axiosClient;
