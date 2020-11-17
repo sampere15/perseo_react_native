@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
-import { View, Text } from "react-native";
+import { View, Text, FlatList } from "react-native";
 import Loading from "../components/loading/Loading";
+import MediaList from "../components/media/MediaList";
 
 //  Redux
 import { useSelector, useDispatch } from "react-redux";
@@ -17,11 +18,7 @@ const Home = () => {
 
   return (
     <View>
-      <Text>Home</Text>
-      <Loading 
-        isVisible={downloading} 
-        text="Downloading data..."
-      />
+      <MediaList height={200} />
     </View>
   );
 };

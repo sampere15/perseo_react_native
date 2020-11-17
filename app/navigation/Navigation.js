@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import { Icon } from 'react-native-elements';
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 //  Redux
 import { useSelector } from "react-redux";
+
+import manageToken from "../utils/manageToken";
 
 //  Import stacks
 import HomeStack from "./stacks/HomeStack";
@@ -19,12 +21,16 @@ const Tab = createBottomTabNavigator();
 export default function Navigation() {
   //  Recover auth from redux
   const { auth } = useSelector(state => state.auth);
+  // Recover token from storage
+  const token = manageToken.getTokenSecureStore();
+
   // console.log(auth);
+  // cons token = await manageToken.getTokenSecureStore();
 
   return (
     <NavigationContainer>
     {/* Check if user is logged or not */}
-    {auth
+    {token || auth
     ?
       <Tab.Navigator
         initialRouteName="HomeStack"
