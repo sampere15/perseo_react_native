@@ -9,18 +9,19 @@ import { getFilesAction } from "../redux/actions/mediaActions";
 
 export default function Home({navigation}) {
   const dispatch = useDispatch();
-  const { downloading, files } = useSelector( state => state.media);
-  const { favs, lastShowed } = useSelector(state => state.media.user);
+  const { downloading, files, user } = useSelector( state => state.media);
+  let favourites;
+  let last;
   
   //  Filter the data to pass them to the MediaList component
-  const favourites = files.filter( file => favs.includes(file.id));
-  const last = files.filter( file => lastShowed.includes(file.id));
+  if(user) {
+    favourites = files.filter( file => user.favs.includes(file.id));
+    last = files.filter( file => user.lastShowed.includes(file.id));
+  }
 
   //  Request for data to the API
   useEffect( () => {
-    if(files.length === 0) {
-      dispatch(getFilesAction());
-    }
+    dispatch(getFilesAction());
   }, []);
 
   if(downloading) {

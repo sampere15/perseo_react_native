@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 import { Icon } from 'react-native-elements';
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
@@ -22,7 +22,11 @@ export default function Navigation() {
   //  Recover auth from redux
   const { auth } = useSelector(state => state.auth);
   // Recover token from storage
-  const token = tokenManager.getTokenSecureStore();
+  let token = false;
+
+  useEffect(() => {
+    token = tokenManager.getTokenSecureStore()
+  }, [auth]);
 
   return (
     <NavigationContainer>
