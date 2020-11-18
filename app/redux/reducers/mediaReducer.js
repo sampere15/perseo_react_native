@@ -6,7 +6,6 @@ import {
   ITEM_FAV_REMOVE,
   APPLY_FILTER,
   CLEAR_FILTER,
-  APPLYING_FILTER
 } from "../actionTypes/mediaTypes";
 
 const initialState = {
@@ -70,11 +69,6 @@ export default function mediaReducer(state = initialState, action) {
         filter: null,
         filesFiltered: null,
       };
-    // case APPLYING_FILTER: 
-    //   return{
-    //     ...state,
-    //     downloading: action.payload,
-    //   };
     default:
       return state;
   }

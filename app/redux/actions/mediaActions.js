@@ -6,7 +6,6 @@ import {
   ITEM_FAV_REMOVE,
   APPLY_FILTER,
   CLEAR_FILTER,
-  APPLYING_FILTER
 } from "../actionTypes/mediaTypes";
 
 //  Import Mock data for testing
