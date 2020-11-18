@@ -3,6 +3,7 @@ import { Icon } from 'react-native-elements';
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Loading from "../components/loading/Loading";
+import {Global} from "../utils/global";
 
 //  Redux
 import { useSelector, useDispatch } from "react-redux";
@@ -49,7 +50,7 @@ export default function Navigation() {
         initialRouteName="HomeStack"
         tabBarOptions={{
           inactiveTintColor: "#646464",
-          activeTintColor: "#B31E1E",
+          activeTintColor: Global.corporativeColor,
           keyboardHidesTabBar: true,
         }}
         screenOptions={({ route }) => ({

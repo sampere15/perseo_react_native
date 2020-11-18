@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, ScrollView, StyleSheet, ActivityIndicator } from 'react-native';
-import { Rating, Divider, Icon } from "react-native-elements";
+import { Divider, Icon } from "react-native-elements";
 import axiosClient from "../utils/axios";
 import tokenManager from "../utils/tokenManager";
 import { Video } from "expo-av";
 import FavIcon from "./../components/media/FavIcon";
+import Rating from "../components/media/Rating";
 
 //  Mock data for testing
 import mockData from "../mockData/mockMedia2";
@@ -24,19 +25,16 @@ export default function MediaDetails(props) {
   const downloadMedia = async () => {
     try {
       setDownloading(true);
-      const token = await tokenManager.getTokenSecureStore();
-      // console.log(`token: ${token}`);
+      // const token = await tokenManager.getTokenSecureStore();
 
-      let formData = new FormData();
-      formData.append("token", token);
-      formData.append("device", "Android");
-      formData.append("id", itemId);
+      // let formData = new FormData();
+      // formData.append("token", token);
+      // formData.append("device", "Android");
+      // formData.append("id", itemId);
 
-      // console.log(formData);
-
-      const {data} = await axiosClient.getMediaInfo(formData);
-      // const data = mockData;
-      // console.log(data);
+      // const {data} = await axiosClient.getMediaInfo(formData);
+      const data = mockData;
+      console.log(data);
       setItem(data);
 
       setDownloading(false);
@@ -55,6 +53,7 @@ export default function MediaDetails(props) {
     <View style={styles.container}>
       <View style={styles.videoContainer}>
         <Video
+          // source={{ uri: data.url }}
           source={{ uri: "http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4" }}
           rate={1.0}
           volume={1.0}
@@ -69,9 +68,9 @@ export default function MediaDetails(props) {
           <Text style={styles.title}>{item.title}</Text>
           <View style={styles.rating}>
             <Rating 
-              imageSize={15}
-              readonly
-              startingValue={item.votes*5/item.totalVotes}
+              votes={item.votes}
+              totalVotes={item.totalVotes}
+              baseRating={5}
             />
           </View>
         </View>
