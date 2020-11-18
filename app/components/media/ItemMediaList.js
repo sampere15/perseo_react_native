@@ -1,8 +1,11 @@
 import React from 'react'
-import { View, Text, TouchableOpacity, TouchableHighlight, Touch, StyleSheet, ActivityIndicator, TouchableNativeFeedback} from 'react-native';
-import { Card, Image } from "react-native-elements";
+import { TouchableOpacity, StyleSheet, ActivityIndicator } from 'react-native';
+import { Image } from "react-native-elements";
+import { Global } from "../../utils/global";
+import FavIcon from "./FavIcon";
 
 export default function ItemMediaList({navigation, item, height}) {
+
   //  Calculate the width for the given height
   const width = 9/16*height;
 
@@ -23,7 +26,10 @@ export default function ItemMediaList({navigation, item, height}) {
       <Image 
         source={{ uri: item.cover }}
         style={styles.image}
-        PlaceholderContent={<ActivityIndicator />}
+        PlaceholderContent={<ActivityIndicator size="large" color={Global.corporativeColor} />}
+      />
+      <FavIcon 
+        item={item}
       />
     </TouchableOpacity>
   );
