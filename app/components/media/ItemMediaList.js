@@ -4,9 +4,9 @@ import { TouchableOpacity, StyleSheet, ActivityIndicator } from 'react-native';
 import { Image } from "react-native-elements";
 import { Global } from "../../utils/global";
 import FavIcon from "./FavIcon";
+import Toast from "react-native-simple-toast";
 
 export default function ItemMediaList({navigation, item, height, showFav = true}) {
-
   //  Calculate the width for the given height
   const width = 9/16*height;
 
@@ -23,6 +23,7 @@ export default function ItemMediaList({navigation, item, height, showFav = true}
   return (
     <TouchableOpacity 
       onPress={() => navigation.navigate("mediadetails", { itemId: item.id })}
+      onLongPress={() => Toast.show(item.title, Toast.SHORT)}
     >
       <Image 
         source={{ uri: item.cover }}
