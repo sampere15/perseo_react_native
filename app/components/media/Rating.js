@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from "prop-types";
 import { View, Text, StyleSheet } from 'react-native';
 import { Icon } from "react-native-elements";
 
@@ -18,6 +19,12 @@ export default function Rating({votes, totalVotes, baseRating = 5}) {
       </View>
     </View>
   )
+}
+
+Rating.propTypes = {
+  votes: PropTypes.number.isRequired,
+  totalVotes: PropTypes.number.isRequired,
+  baseRating: PropTypes.number
 }
 
 const styles = StyleSheet.create({

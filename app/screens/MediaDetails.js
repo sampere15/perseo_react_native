@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, ScrollView, StyleSheet, ActivityIndicator } from 'react-native';
-import { Divider, Icon } from "react-native-elements";
+import { View, StyleSheet, ActivityIndicator } from 'react-native';
 import axiosClient from "../utils/axios";
 import tokenManager from "../utils/tokenManager";
-import { Video } from "expo-av";
-import FavIcon from "./../components/media/FavIcon";
-import Rating from "../components/media/Rating";
+import VideoComp from "../components/media/VideoComp";
+import ItemDetailsMainInfo from "../components/media/ItemDetailsMainInfo";
 
 //  Mock data for testing
 import mockData from "../mockData/mockMedia2";
@@ -15,7 +13,6 @@ export default function MediaDetails(props) {
   const {itemId} = props.route.params;
   const [downloading, setDownloading] = useState(true);
   const [item, setItem] = useState(null);
-  const [videoRotation, setVideoRotation] = useState(0);
 
   useEffect(() => {
     downloadMedia();
@@ -34,7 +31,6 @@ export default function MediaDetails(props) {
 
       // const {data} = await axiosClient.getMediaInfo(formData);
       const data = mockData;
-      console.log(data);
       setItem(data);
 
       setDownloading(false);
@@ -52,45 +48,13 @@ export default function MediaDetails(props) {
   return (
     <View style={styles.container}>
       <View style={styles.videoContainer}>
-        <Video
-          // source={{ uri: data.url }}
-          source={{ uri: "http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4" }}
-          rate={1.0}
-          volume={1.0}
-          isMuted={false}
-          resizeMode="cover"
-          useNativeControls={true}
-          style={{ height: "100%"}}
+        <VideoComp 
+          url={item.url} 
         />
       </View>
-      <ScrollView style={styles.infoContainer}>
-        <View style={styles.mainInfo}>
-          <Text style={styles.title}>{item.title}</Text>
-          <View style={styles.rating}>
-            <Rating 
-              votes={item.votes}
-              totalVotes={item.totalVotes}
-              baseRating={5}
-            />
-          </View>
-        </View>
-        <Divider style={{ backgroundColor: "grey" }} />
-        <View style={styles.restInfo}>
-          <FavIcon
-            item={item}
-            containerStyle={{position: "relative"}}
-          />
-          <Text>{new Date(item.duration * 1000).toISOString().substr(11, 5)}min</Text>
-          <Text>{item.rating}</Text>
-          <Text>{item.section}</Text>
-        </View>
-        <Divider style={{ backgroundColor: "grey" }} />
-        <View style={styles.descriptionInfo}>
-          <Text>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. In id mauris vitae lectus sollicitudin varius. Phasellus ex tortor, posuere in eleifend id, gravida vitae sapien. Nulla vehicula a turpis vitae vestibulum. Ut luctus efficitur diam, a iaculis eros gravida vel. Vestibulum aliquam felis non euismod semper. Nunc justo libero, efficitur et enim id, viverra maximus urna. Cras vitae risus imperdiet, egestas purus eu, iaculis dui. Integer ac ante libero. Sed vel luctus purus. Phasellus sed nisi mauris. Suspendisse in molestie est, in facilisis erat. Phasellus lectus magna, vehicula ac euismod consectetur, hendrerit rhoncus sem. Etiam nec aliquet dolor. Maecenas quis metus accumsan, aliquam tortor eu, imperdiet tellus.
-          </Text>
-        </View>
-      </ScrollView>
+      <ItemDetailsMainInfo 
+        item={item}
+      />
     </View>
   )
 }
@@ -107,39 +71,6 @@ const styles = StyleSheet.create({
   },
   videoContainer: {
     flex: 1,
-    // alignItems: "center",
-    // justifyContent: "center",
-    // backgroundColor: "orange",
-  },
-  infoContainer: {
-    flex: 1,
-    padding: 10,
-  },
-  mainInfo: {
-    flex: 1,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-  },
-  title: {
-    flex: 2,
-    fontSize: 20,
-  },
-  rating: {
-    flex: 1,
-    alignItems: "flex-end",
-  },
-  restInfo: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "space-evenly",
-    flexDirection: "row",
-    marginVertical: 10,
-  },
-  descriptionInfo: {
-    flex: 2,
-    marginTop: 5,
-    marginBottom: 20,
   },
   backgroundVideo: {
     position: 'absolute',

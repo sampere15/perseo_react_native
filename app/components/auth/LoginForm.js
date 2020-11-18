@@ -22,7 +22,6 @@ export default function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
 
   const onSubmit = () => {
-    console.log(email, password);
     //  Check validation
     const validationResult = validate({
       emailValidation: email,
@@ -30,7 +29,6 @@ export default function LoginForm() {
     }, {emailValidation, passwordRequired});
 
     setFormErrors(validationResult);
-    console.log(validationResult);
     //  If error, we dont continue
     if(validationResult) {
       return;
