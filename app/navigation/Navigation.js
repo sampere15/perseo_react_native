@@ -4,12 +4,11 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Loading from "../components/loading/Loading";
 import {Global} from "../utils/global";
+import tokenManager from "../utils/tokenManager";
 
 //  Redux
 import { useSelector, useDispatch } from "react-redux";
 import { getFilesAction } from "../redux/actions/mediaActions";
-
-import tokenManager from "../utils/tokenManager";
 
 //  Import stacks
 import HomeStack from "./stacks/HomeStack";
@@ -41,8 +40,22 @@ export default function Navigation() {
     return <Loading isVisible={true} text={"Downloading data.."} />
   }
 
+  //  Deep linking configuration
+  const linkingConfig = {
+    prefixes: ['exps://perseo_react_native.com'],
+    config: {
+      screens: {
+        HomeStack: {
+          screens: {
+            mediadetails: 'mediadetails/:id'
+          }
+        }
+      }
+    }
+  }
+
   return (
-    <NavigationContainer>
+    <NavigationContainer linking={linkingConfig}>
     {/* Check if user is logged or not */}
     {token || auth
     ?
