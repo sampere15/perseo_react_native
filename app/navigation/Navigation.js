@@ -10,7 +10,6 @@ import tokenManager from "../utils/tokenManager";
 
 //  Import stacks
 import HomeStack from "./stacks/HomeStack";
-import FavsStack from "./stacks/FavsStack";
 import SearchStack from "./stacks/SearchStack";
 import AccountStack from "./stacks/AccountStack";
 
@@ -25,7 +24,7 @@ export default function Navigation() {
   let token = false;
 
   useEffect(() => {
-    token = tokenManager.getTokenSecureStore()
+    token = tokenManager.getTokenSecureStore();
   }, [auth]);
 
   return (
@@ -34,10 +33,11 @@ export default function Navigation() {
     {token || auth
     ?
       <Tab.Navigator
-        initialRouteName="HomeStack"
+        initialRouteName="SearchStack"
         tabBarOptions={{
           inactiveTintColor: "#646464",
-          activeTintColor: "#B31E1E"
+          activeTintColor: "#B31E1E",
+          keyboardHidesTabBar: true,
         }}
         screenOptions={({ route }) => ({
           //  Recuperamos la prop color del tabBarIcon mediante destructuring y se lo pasamos por parámetro a la funcion que hemos creado
@@ -50,14 +50,9 @@ export default function Navigation() {
           options={{ title: "Home" }}
         />
         <Tab.Screen
-          name="FavsStack"
-          component={FavsStack}
-          options={{ title: "Favs" }}
-        />
-        <Tab.Screen
           name="SearchStack"
           component={SearchStack}
-          options={{ title: "Search" }}
+          // options={{ title: "Search" }}
         />
         <Tab.Screen
           name="AccountStack"
@@ -78,9 +73,6 @@ function screenOptions(route, color) {
   switch (route.name) {
     case "HomeStack":
       iconName = "compass-outline";
-      break;
-    case "FavsStack":
-      iconName = "star-outline";
       break;
     case "SearchStack":
       iconName = "magnify";

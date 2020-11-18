@@ -6,6 +6,7 @@ import {
   ITEM_FAV_REMOVE,
   APPLY_FILTER,
   CLEAR_FILTER,
+  APPLYING_FILTER
 } from "../actionTypes/mediaTypes";
 
 const initialState = {
@@ -58,10 +59,9 @@ export default function mediaReducer(state = initialState, action) {
       return {
         ...state,
         filter: action.payload,
-        filesFiltered: state.files.filter(
-          (file) =>
-            file.title.toLowerCase().includes(action.payload) ||
-            file.section.toLowerCase().includes(action.payload)
+        filesFiltered: state.files.filter( (file) =>
+            file.title.toLowerCase().includes(action.payload.toLowerCase()) ||
+            file.section.toLowerCase().includes(action.payload.toLowerCase())
         ),
       };
     case CLEAR_FILTER:
@@ -70,6 +70,11 @@ export default function mediaReducer(state = initialState, action) {
         filter: null,
         filesFiltered: null,
       };
+    // case APPLYING_FILTER: 
+    //   return{
+    //     ...state,
+    //     downloading: action.payload,
+    //   };
     default:
       return state;
   }

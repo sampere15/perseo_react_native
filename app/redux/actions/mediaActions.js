@@ -6,6 +6,7 @@ import {
   ITEM_FAV_REMOVE,
   APPLY_FILTER,
   CLEAR_FILTER,
+  APPLYING_FILTER
 } from "../actionTypes/mediaTypes";
 
 //  Import Mock data for testing
@@ -74,10 +75,24 @@ export function markItemFavAction(itemId, fav) {
 export function filterItemsAction(filter) {
   return (dispatch) => {
     if (filter.length > 0) {
+      //  To show un loading spinner
+      // dispatch({
+      //   type: APPLYING_FILTER,
+      //   payload: true,
+      // });
+
       dispatch({
         type: APPLY_FILTER,
-        payload: filter.toLowerCase(),
+        payload: filter,
       });
+
+      // setTimeout(() => {
+      //   dispatch({
+      //     type: APPLYING_FILTER,
+      //     payload: false,
+      //   });
+      // }, 3000);
+
     } else {
       dispatch({
         type: CLEAR_FILTER,
