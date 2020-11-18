@@ -2,9 +2,11 @@ import React, { useEffect } from "react";
 import { Icon } from 'react-native-elements';
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import Loading from "../components/loading/Loading";
 
 //  Redux
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { getFilesAction } from "../redux/actions/mediaActions";
 
 import tokenManager from "../utils/tokenManager";
 
@@ -19,13 +21,24 @@ const Tab = createBottomTabNavigator();
 
 export default function Navigation() {
   //  Recover auth from redux
+  const dispatch = useDispatch();
   const { auth } = useSelector(state => state.auth);
+  const { downloading } = useSelector(state => state.media);
   // Recover token from storage
   let token = false;
 
   useEffect(() => {
     token = tokenManager.getTokenSecureStore();
+
+    //  Let's download the data
+    if(token) {
+      dispatch(getFilesAction());
+    }
   }, [auth]);
+
+  if(downloading) {
+    return <Loading isVisible={true} text={"Downloading data.."} />
+  }
 
   return (
     <NavigationContainer>
@@ -33,14 +46,13 @@ export default function Navigation() {
     {token || auth
     ?
       <Tab.Navigator
-        initialRouteName="SearchStack"
+        initialRouteName="HomeStack"
         tabBarOptions={{
           inactiveTintColor: "#646464",
           activeTintColor: "#B31E1E",
           keyboardHidesTabBar: true,
         }}
         screenOptions={({ route }) => ({
-          //  Recuperamos la prop color del tabBarIcon mediante destructuring y se lo pasamos por parámetro a la funcion que hemos creado
           tabBarIcon: ({ color }) => screenOptions(route, color),
         })}
       >
@@ -52,7 +64,7 @@ export default function Navigation() {
         <Tab.Screen
           name="SearchStack"
           component={SearchStack}
-          // options={{ title: "Search" }}
+          options={{ title: "Search" }}
         />
         <Tab.Screen
           name="AccountStack"
