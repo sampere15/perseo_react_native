@@ -1,4 +1,5 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
+import { View, ActivityIndicator } from "react-native";
 import { Icon } from 'react-native-elements';
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
@@ -24,21 +25,21 @@ export default function Navigation() {
   const dispatch = useDispatch();
   const { auth } = useSelector(state => state.auth);
   const { downloading } = useSelector(state => state.media);
-  // Recover token from storage
-  let token = false;
+  const [gettingToken, setGettingToken] = useState(true);
+  const [token, setToken] = useState(null);
 
   useEffect(() => {
-    token = tokenManager.getTokenSecureStore();
+    //  Get token from store. If dont, login will be asked each time app is open
+    tokenManager.getTokenSecureStore().then( res => {
+      setToken(res);
+      setGettingToken(false);
+    });
 
     //  Let's download the data
-    if(token) {
+    if(auth || token) {
       dispatch(getFilesAction());
     }
-  }, [auth]);
-
-  if(downloading) {
-    return <Loading isVisible={true} text={"Downloading data.."} />
-  }
+  }, [auth, token]);
 
   //  Deep linking configuration
   const linkingConfig = {
@@ -54,10 +55,22 @@ export default function Navigation() {
     }
   }
 
+  if(downloading) {
+    return <Loading isVisible={true} text={"Downloading data.."} />
+  }
+
+  if(gettingToken) {
+    return (
+      <View style={{flex: 1, flexDirection: "row", justifyContent: "center", alignItems: "center"}}>
+        <ActivityIndicator size="large" color={Global.corporativeColor} />
+      </View>
+    );
+  }
+
   return (
     <NavigationContainer linking={linkingConfig}>
     {/* Check if user is logged or not */}
-    {token || auth
+    {auth || token
     ?
       <Tab.Navigator
         initialRouteName="HomeStack"
