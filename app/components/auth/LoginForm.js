@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { View, StyleSheet, Text } from "react-native";
 import { Input, Button, Icon } from "react-native-elements";
 import md5 from "md5";
+import validate from "validate.js";
+import { emailValidation, requiredValidation as passwordRequired } from "../../utils/validationConstraints";
 
 //  Redux
 import { useDispatch, useSelector } from "react-redux";
@@ -11,11 +13,29 @@ export default function LoginForm() {
   //  Redux
   const dispatch = useDispatch();
   const { loading, errorMessage } = useSelector(state => state.auth);
-
+  //  Self
   const [email, setEmail] = useState("developer@perseo.tv");
   const [password, setPassword] = useState("dev");
+  // const [email, setEmail] = useState("");
+  // const [password, setPassword] = useState("");
+  const [formErrors, setFormErrors] = useState(null);
+  const [showPassword, setShowPassword] = useState(false);
 
   const onSubmit = () => {
+    console.log(email, password);
+    //  Check validation
+    const validationResult = validate({
+      emailValidation: email,
+      passwordRequired: password 
+    }, {emailValidation, passwordRequired});
+
+    setFormErrors(validationResult);
+    console.log(validationResult);
+    //  If error, we dont continue
+    if(validationResult) {
+      return;
+    }
+
     //  Set user data
     const userData = {
       user: email,
@@ -23,35 +43,36 @@ export default function LoginForm() {
       device: "Android"
     };
     //  Call action to loging with user data
-    dispatch(loginAction(userData))
+    dispatch(loginAction(userData));
   }
 
   return (
     <View style={styles.loginFormContainer}>
       <Input
         placeholder='Email'
-        containerStyle={styles.inputForm}
-        value="developer@perseo."
+        keyboardType="email-address"
+        value={email}
+        onChange={e => setEmail(e.nativeEvent.text)}
         rightIcon={
           <Icon type='material-community' 
             name='at' 
-            iconStyle={styles.inputIcon} 
           />}
       />
+      {formErrors && formErrors.emailValidation && <Text style={styles.loginError}>{formErrors.emailValidation[0]}</Text>}
       <Input
         placeholder='Password'
-        containerStyle={styles.inputForm}
-        secureTextEntry={false}
-        value="dev"
+        secureTextEntry={!showPassword}
+        value={password}
+        onChange={e => setPassword(e.nativeEvent.text)}
         rightIcon={
           <Icon
             type='material-community'
-            name={true ? "eye-off-outline" : "eye-outline"}
-            // iconStyle={styles.inputIcon}
+            name={!showPassword ? "eye-off-outline" : "eye-outline"}
+            onPress={() => setShowPassword(!showPassword)}
           />
         }
       />
-      {errorMessage && <Text style={styles.loginError}>{errorMessage}</Text>}
+      {formErrors && formErrors.passwordRequired && <Text style={styles.loginError}>{formErrors.passwordRequired[0]}</Text>}
       <Button
         title='Login'
         containerStyle={styles.btnContainerLogin}
@@ -59,15 +80,19 @@ export default function LoginForm() {
         onPress={onSubmit}
         loading={loading}
       />
+      {errorMessage && <Text style={styles.loginError}>{errorMessage}</Text>}
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   loginFormContainer: {
-    marginTop: 40,
-    marginLeft: 20,
-    marginRight: 20,
+    // marginTop: 40,
+    // marginLeft: 20,
+    // marginRight: 20,
+    flex: 1,
+    justifyContent: "center",
+    marginHorizontal: 20,
   },
   loginError: {
     color: "red",
