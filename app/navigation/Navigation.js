@@ -3,7 +3,6 @@ import { View, ActivityIndicator } from "react-native";
 import { Icon } from 'react-native-elements';
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import Loading from "../components/loading/Loading";
 import {Global} from "../utils/global";
 import tokenManager from "../utils/tokenManager";
 
@@ -24,7 +23,6 @@ export default function Navigation() {
   //  Recover auth from redux
   const dispatch = useDispatch();
   const { auth } = useSelector(state => state.auth);
-  const { downloading } = useSelector(state => state.media);
   const [gettingToken, setGettingToken] = useState(true);
   const [token, setToken] = useState(null);
 
@@ -53,10 +51,6 @@ export default function Navigation() {
         }
       }
     }
-  }
-
-  if(downloading) {
-    return <Loading isVisible={true} text={"Downloading data.."} />
   }
 
   if(gettingToken) {
