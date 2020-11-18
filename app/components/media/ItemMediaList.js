@@ -1,10 +1,11 @@
-import React from 'react'
+import React from 'react';
+import PropTypes from "prop-types";
 import { TouchableOpacity, StyleSheet, ActivityIndicator } from 'react-native';
 import { Image } from "react-native-elements";
 import { Global } from "../../utils/global";
 import FavIcon from "./FavIcon";
 
-export default function ItemMediaList({navigation, item, height}) {
+export default function ItemMediaList({navigation, item, height, showFav = true}) {
 
   //  Calculate the width for the given height
   const width = 9/16*height;
@@ -28,9 +29,18 @@ export default function ItemMediaList({navigation, item, height}) {
         style={styles.image}
         PlaceholderContent={<ActivityIndicator size="large" color={Global.corporativeColor} />}
       />
-      <FavIcon 
-        item={item}
-      />
+      {showFav &&
+        <FavIcon 
+          item={item}
+        />
+      }
     </TouchableOpacity>
   );
+}
+
+ItemMediaList.propTypes = {
+  item: PropTypes.object.isRequired,
+  navigation: PropTypes.object,
+  height: PropTypes.number,
+  showFav: PropTypes.bool,
 }
