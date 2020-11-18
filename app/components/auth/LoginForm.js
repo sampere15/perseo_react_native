@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, Image } from "react-native";
+import { View, StyleSheet, Text } from "react-native";
 import { Input, Button, Icon } from "react-native-elements";
 import md5 from "md5";
 
@@ -10,7 +10,7 @@ import { loginAction } from "../../redux/actions/authActions";
 export default function LoginForm() {
   //  Redux
   const dispatch = useDispatch();
-  const { loading } = useSelector(state => state.auth);
+  const { loading, errorMessage } = useSelector(state => state.auth);
 
   const [email, setEmail] = useState("developer@perseo.tv");
   const [password, setPassword] = useState("dev");
@@ -31,7 +31,7 @@ export default function LoginForm() {
       <Input
         placeholder='Email'
         containerStyle={styles.inputForm}
-        value="developer@perseo.tv"
+        value="developer@perseo."
         rightIcon={
           <Icon type='material-community' 
             name='at' 
@@ -51,6 +51,7 @@ export default function LoginForm() {
           />
         }
       />
+      {errorMessage && <Text style={styles.loginError}>{errorMessage}</Text>}
       <Button
         title='Login'
         containerStyle={styles.btnContainerLogin}
@@ -67,5 +68,10 @@ const styles = StyleSheet.create({
     marginTop: 40,
     marginLeft: 20,
     marginRight: 20,
+  },
+  loginError: {
+    color: "red",
+    fontWeight: "100",
+    marginBottom: 10,
   }
 });

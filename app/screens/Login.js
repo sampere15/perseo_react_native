@@ -1,17 +1,18 @@
 import React from "react";
-import { ScrollView, View, StyleSheet } from "react-native";
+import { View, StyleSheet } from "react-native";
 
 import LoginForm from "../components/auth/LoginForm";
 import LoginHeader from "../components/auth/LoginHeader";
 
 export default function Login() {
+
   return (
     <View style={styles.container}>
       <View style={styles.headerView}>
         <LoginHeader />
       </View>
       <View style={styles.loginForm}>
-        <LoginForm />
+        <LoginForm/>
       </View>
     </View>
   );
