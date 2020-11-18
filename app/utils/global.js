@@ -1,5 +1,5 @@
-const corporativeColor = "#00a680";
-const favColor = "#e22e2e";
+const corporativeColor = "#009872";
+const favColor = "#e1171d";
 
 export const Global = {
   corporativeColor: corporativeColor,
