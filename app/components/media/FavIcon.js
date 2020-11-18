@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
 import PropTypes from "prop-types";
 import { Icon } from "react-native-elements";
-import { Global } from '../../utils/global';
+import { Global, FAV_MARKED, FAV_UNMARKED } from '../../utils/global';
+import Toast from "react-native-simple-toast";
 
 //  Redux
 import { useSelector, useDispatch } from "react-redux";
@@ -26,6 +27,7 @@ export default function FavIcon({
 
   const onFavClick = () => {
     dispatch(markItemFavAction(item.id, !item.fav));
+    Toast.show(item.fav ? FAV_UNMARKED : FAV_MARKED, Toast.SHORT);
   }
 
   //  Recheck each time favs changes
