@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, ScrollView, StyleSheet, ActivityIndicator } from 'react-native';
-import { Rating, Divider } from "react-native-elements";
+import { Rating, Divider, Icon } from "react-native-elements";
 import axiosClient from "../utils/axios";
 import tokenManager from "../utils/tokenManager";
 import { Video } from "expo-av";
+import FavIcon from "./../components/media/FavIcon";
 
 //  Mock data for testing
 import mockData from "../mockData/mockMedia2";
@@ -23,18 +24,18 @@ export default function MediaDetails(props) {
   const downloadMedia = async () => {
     try {
       setDownloading(true);
-      // const token = await tokenManager.getTokenSecureStore();
+      const token = await tokenManager.getTokenSecureStore();
       // console.log(`token: ${token}`);
 
-      // let formData = new FormData();
-      // formData.append("token", token);
-      // formData.append("device", "Android");
-      // formData.append("id", itemId);
+      let formData = new FormData();
+      formData.append("token", token);
+      formData.append("device", "Android");
+      formData.append("id", itemId);
 
       // console.log(formData);
 
-      // const {data} = await axiosClient.getMediaInfo(formData);
-      const data = mockData;
+      const {data} = await axiosClient.getMediaInfo(formData);
+      // const data = mockData;
       // console.log(data);
       setItem(data);
 
@@ -54,7 +55,7 @@ export default function MediaDetails(props) {
     <View style={styles.container}>
       <View style={styles.videoContainer}>
         <Video
-          source={{ uri: "'http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4'" }}
+          source={{ uri: "http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4" }}
           rate={1.0}
           volume={1.0}
           isMuted={false}
@@ -76,6 +77,10 @@ export default function MediaDetails(props) {
         </View>
         <Divider style={{ backgroundColor: "grey" }} />
         <View style={styles.restInfo}>
+          <FavIcon
+            item={item}
+            containerStyle={{position: "relative"}}
+          />
           <Text>{new Date(item.duration * 1000).toISOString().substr(11, 5)}min</Text>
           <Text>{item.rating}</Text>
           <Text>{item.section}</Text>
@@ -99,7 +104,7 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    flexDirection: "column",
+    flexDirection: "column"
   },
   videoContainer: {
     flex: 1,
@@ -109,8 +114,7 @@ const styles = StyleSheet.create({
   },
   infoContainer: {
     flex: 1,
-    backgroundColor: "#FFF",
-    padding: 10
+    padding: 10,
   },
   mainInfo: {
     flex: 1,
@@ -131,10 +135,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-evenly",
     flexDirection: "row",
+    marginVertical: 10,
   },
   descriptionInfo: {
     flex: 2,
     marginTop: 5,
+    marginBottom: 20,
   },
   backgroundVideo: {
     position: 'absolute',
