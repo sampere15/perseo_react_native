@@ -64,6 +64,7 @@ export default function LoginForm() {
 
 const styles = StyleSheet.create({
   loginFormContainer: {
+    marginTop: 40,
     marginLeft: 20,
     marginRight: 20,
   }
