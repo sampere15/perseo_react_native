@@ -30,7 +30,7 @@ export function getFilesAction() {
       //  Preparing post data
       const bodyFormData = new FormData();
       bodyFormData.append("token", token);
-      bodyFormData.append("device", "Web");
+      bodyFormData.append("device", "Android");
       const { data } = await axiosClient.post("/GetView.php", bodyFormData);
 
       //  My Mock Data for testing

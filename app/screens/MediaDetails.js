@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, ActivityIndicator } from 'react-native';
 import { Divider } from "react-native-elements";
 import axiosClient from "../utils/axios";
-import tokenManager from "../utils/tokenManager";
 import VideoComp from "../components/media/VideoComp";
 import ItemDetailsMainInfo from "../components/media/ItemDetailsMainInfo";
 import Toast from "react-native-simple-toast";
@@ -11,67 +10,50 @@ import Toast from "react-native-simple-toast";
 // import mockData from "../mockData/mockMedia2";
 
 export default function MediaDetails(props) {
-  //  Extra the file id
+  //  Extract the file id
   const {itemId} = props.route.params;
-  const [downloading, setDownloading] = useState(true);
   const [item, setItem] = useState(null);
 
-  //  Set title
-  if(item) {
-    props.navigation.setOptions({title: item.title});
-  }
+  useEffect(() => {    
+    //  Preparing formData
+    let formData = new FormData();
+    formData.append("id", itemId);
 
-  useEffect(() => {
-    downloadMedia();
-  }, []);
-  
-  //  Function to download media info
-  const downloadMedia = () => {
-    setDownloading(true);
-
-    tokenManager.getTokenSecureStore()
-      .then(token => {
-        let formData = new FormData();
-        formData.append("token", token);
-        formData.append("device", "Android");
-        formData.append("id", itemId);
-
-        axiosClient.getMediaInfo(formData)
-          .then(({data}) => {
-            setItem(data);
-            setDownloading(false);
-          })
-          .catch(err => {
-            console.log(err.response);    
-            Toast.show("Ha ocurrido un error. Inténtelo más tarde", Toast.LONG);
-            setDownloading(false);
-          });
+    axiosClient.getMediaInfo(formData)
+      .then( ({data}) => {
+        //  If error show toast and go back
+        if(data.error) {
+          Toast.show("Oh oh, file not found... Try again later", Toast.LONG);
+          props.navigation.goBack();
+        } else {
+          setItem(data);
+        }
       })
-      .catch(err => {
-        console.log(err.response);
-        Toast.show("Ha ocurrido un error. Inténtelo más tarde", Toast.LONG);
-        setDownloading(false);
+      .catch( (error) => {
+        console.log(error);
+        props.navigation.goBack();
       });
-  }
+  }, []);
 
-  //  We show indicator while info is downloaded
-  if(downloading) {
+  if(item === null) {
     return <ActivityIndicator style={styles.activityIndicator} size="large" color="#ccc" />
   }
   
-  return (
-    <View style={styles.container}>
-      <View style={styles.videoContainer}>
-        <VideoComp 
-          url={item.url} 
+  if(item !== null) {
+    return (
+      <View style={styles.container}>
+        <View style={styles.videoContainer}>
+          <VideoComp 
+            url={item.url} 
+          />
+        </View>
+        <Divider style={{ backgroundColor: "grey" }} />
+        <ItemDetailsMainInfo 
+          item={item}
         />
       </View>
-      <Divider style={{ backgroundColor: "grey" }} />
-      <ItemDetailsMainInfo 
-        item={item}
-      />
-    </View>
-  )
+    )
+  }
 }
 
 const styles = StyleSheet.create({
