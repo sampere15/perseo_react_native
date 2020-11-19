@@ -5,6 +5,7 @@ import axiosClient from "../utils/axios";
 import VideoComp from "../components/media/VideoComp";
 import ItemDetailsMainInfo from "../components/media/ItemDetailsMainInfo";
 import Toast from "react-native-simple-toast";
+import { Endpoints } from "../utils/global";
 
 //  Mock data for testing
 // import mockData from "../mockData/mockMedia2";
@@ -19,7 +20,7 @@ export default function MediaDetails(props) {
     let formData = new FormData();
     formData.append("id", itemId);
 
-    axiosClient.getMediaInfo(formData)
+    axiosClient.post(Endpoints.PLAYER, formData)
       .then( ({data}) => {
         //  If error show toast and go back
         if(data.error) {

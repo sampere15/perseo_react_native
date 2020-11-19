@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, ActivityIndicator, Button } from "react-native";
+import { View, ActivityIndicator } from "react-native";
 import { Icon } from 'react-native-elements';
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
@@ -8,7 +8,6 @@ import tokenManager from "../utils/tokenManager";
 
 //  Redux
 import { useSelector, useDispatch } from "react-redux";
-import { verifyToken, logoutAction } from "../redux/actions/authActions";
 import { getFilesAction } from "../redux/actions/mediaActions";
 
 //  Import stacks
@@ -25,35 +24,41 @@ export default function Navigation() {
   const dispatch = useDispatch();
   const { auth } = useSelector(state => state.auth);
   const [gettingToken, setGettingToken] = useState(null);
+  const [token, setToken] = useState(null);
 
   useEffect(() => {
-    if(!auth) {
-      console.log("no auth");
-      setGettingToken(true);
-      tokenManager.getTokenSecureStore()
-        .then(token => {
-          setGettingToken(false);
-          if(token !== null) {
-            console.log("verifying stored token");
-            dispatch(verifyToken(token));
-          }
-          else {
-            console.log("token null");
-          }
-        })
-        .catch( error => {
-          console.log("Error show Toast");
-        })
-    } 
-    else {
-      console.log("downloading files");
-      //  Download files first time app starts
+    setGettingToken(true);
+    //  Get token from store. If dont, login will be asked each time app is open
+    tokenManager.getTokenSecureStore().then( res => {
+      setToken(res);
+      setGettingToken(false);
+    });
+
+    //  Let's download the data
+    if(token) {
+    // if(auth || token) {
       dispatch(getFilesAction());
     }
-  }, [auth]);
+  }, [auth, token]);
+
+  console.log(`auth: ${auth}, token: ${token}`);
+
+  //  Deep linking configuration
+  const linkingConfig = {
+    prefixes: ['exps://perseo_react_native.com'],
+    config: {
+      screens: {
+        HomeStack: {
+          screens: {
+            mediadetails: 'mediadetails/:id'
+          }
+        }
+      }
+    }
+  }
 
   if(gettingToken) {
-    return(
+    return (
       <View style={{flex: 1, flexDirection: "row", justifyContent: "center", alignItems: "center"}}>
         <ActivityIndicator size="large" color={Global.corporativeColor} />
       </View>
@@ -61,10 +66,11 @@ export default function Navigation() {
   }
 
   return (
-    <NavigationContainer>
-    {!auth ?
-      <Login />
-    :
+    <NavigationContainer linking={linkingConfig}>
+    {/* Check if user is logged or not */}
+    {token
+    // {auth || token
+    ?
       <Tab.Navigator
         initialRouteName="HomeStack"
         tabBarOptions={{
@@ -92,6 +98,8 @@ export default function Navigation() {
           options={{ title: "Account" }}
         />
       </Tab.Navigator>
+    :
+      <Login />
     }
     </NavigationContainer>
   );

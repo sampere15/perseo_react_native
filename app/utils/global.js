@@ -8,3 +8,9 @@ export const Global = {
 
 export const FAV_MARKED = "Mark as fav!";
 export const FAV_UNMARKED = "Removed...";
+
+export const Endpoints = {
+  LOGIN: "/Login.php",
+  MAIN: "/GetView.php",
+  PLAYER: "/Play.php",
+}

@@ -6,6 +6,7 @@ import {
   ITEM_FAV_REMOVE,
   APPLY_FILTER,
   CLEAR_FILTER,
+  CLEAR_DATA,
 } from "../actionTypes/mediaTypes";
 
 const initialState = {
@@ -18,6 +19,8 @@ const initialState = {
 
 export default function mediaReducer(state = initialState, action) {
   switch (action.type) {
+    case CLEAR_DATA:
+      return initialState;
     case DOWNLOADING:
       return {
         ...state,
