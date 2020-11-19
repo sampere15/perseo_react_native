@@ -12,7 +12,7 @@ const SearchStack = () => {
       <Stack.Screen 
         name='search'
         component={Search} 
-        options={{ title: "Search" }} 
+        options={{ headerShown: false }} 
       />
       <Stack.Screen 
         name='mediadetails'

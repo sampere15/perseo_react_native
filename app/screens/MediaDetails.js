@@ -16,6 +16,11 @@ export default function MediaDetails(props) {
   const [downloading, setDownloading] = useState(true);
   const [item, setItem] = useState(null);
 
+  //  Set title
+  if(item) {
+    props.navigation.setOptions({title: item.title});
+  }
+
   useEffect(() => {
     downloadMedia();
   }, []);

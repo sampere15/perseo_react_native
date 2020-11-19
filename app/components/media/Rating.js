@@ -4,6 +4,8 @@ import { View, Text, StyleSheet } from 'react-native';
 import { Icon } from "react-native-elements";
 
 export default function Rating({votes, totalVotes, baseRating = 5}) {
+  const rate = parseFloat(votes*baseRating/totalVotes).toFixed(1);
+
   return (
     <View style={styles.container}>
       <View style={styles.iconContainer}>
@@ -14,7 +16,12 @@ export default function Rating({votes, totalVotes, baseRating = 5}) {
         />
       </View>
       <View style={styles.ratingContainer}>
-        <Text style={styles.rateNumber}>{votes*baseRating/totalVotes}<Text style={styles.rateOver}>/{baseRating}</Text></Text>
+        <Text style={styles.rateNumber}>
+          {rate}
+          <Text style={styles.rateOver}>
+            /{baseRating}
+          </Text>
+        </Text>
         <Text style={styles.totaVotes}>{totalVotes} votes</Text>
       </View>
     </View>
