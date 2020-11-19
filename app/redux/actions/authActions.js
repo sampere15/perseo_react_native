@@ -2,6 +2,7 @@ import { LOADING, LOGIN_SUCCESS, LOGIN_ERROR, LOGOUT } from "../actionTypes/auth
 
 import axiosClient from "../../utils/axios";
 import tokenManager from "../../utils/tokenManager";
+import { clearReducerData } from "./mediaActions";
 
 //  Action for login
 export function loginAction(userData) {
@@ -47,9 +48,33 @@ export function loginAction(userData) {
 export function logoutAction() {
   return async (dispatch) => {
     await tokenManager.deleteTokenSecureStore();
+    console.log("token deleted");
     //  Send the dispatch to delete the token
     dispatch({
       type: LOGOUT,
     });
+
+    dispatch(clearReducerData());
+    console.log("Cleared media reducer data");
   };
+}
+
+//  Function to verify token and mark user as auth
+export function verifyToken(token) {
+  return async (dispatch) => {
+    // dispatch({
+    //   type: LOADING
+    // });
+
+    if(token !== null) {
+      dispatch({
+        type: LOGIN_SUCCESS
+      });
+    } else {
+      dispatch({
+        type: LOGIN_ERROR,
+        payload: "Token no valid or expired",
+      });
+    }
+  }
 }

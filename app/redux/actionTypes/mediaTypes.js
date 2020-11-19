@@ -11,3 +11,5 @@ export const ITEM_FAV_REMOVE = "ITEM_FAV_REMOVE";
 
 export const APPLY_FILTER = "APPLY_FILTER";
 export const CLEAR_FILTER = "CLEAR_FILTER";
+
+export const CLEAR_DATA = "CLEAR_DATA";

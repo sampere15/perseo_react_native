@@ -6,6 +6,7 @@ import {
   ITEM_FAV_REMOVE,
   APPLY_FILTER,
   CLEAR_FILTER,
+  CLEAR_DATA,
 } from "../actionTypes/mediaTypes";
 
 //  Import Mock data for testing
@@ -92,4 +93,13 @@ export function filterItemsAction(filter) {
       });
     }
   };
+}
+
+//  Action for clear data
+export function clearReducerData() {
+  return (dispatch) => {
+    dispatch({
+      type: CLEAR_DATA
+    });
+  }
 }
