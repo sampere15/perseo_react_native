@@ -4,7 +4,10 @@ import { View, Text, StyleSheet } from 'react-native';
 import { Icon } from "react-native-elements";
 
 export default function Rating({votes, totalVotes, baseRating = 5}) {
-  const rate = parseFloat(votes*baseRating/totalVotes).toFixed(1);
+  //  With mock data sometimes there ar more possitve votes thant votes
+  votes = votes > totalVotes ? totalVotes : votes;
+  //  Avoid division by zero
+  const rate = totalVotes === 0 ? 0.0 : parseFloat(votes*baseRating/totalVotes).toFixed(1);
 
   return (
     <View style={styles.container}>
