@@ -16,9 +16,8 @@ export function loginAction(userData) {
       const bodyFormData = new FormData();
       bodyFormData.append("user", userData.user);
       bodyFormData.append("pass", userData.pass);
-      bodyFormData.append("device", userData.device);
 
-      const {data} = await axiosClient.post("/Login.php", bodyFormData);
+      const {data} = await axiosClient.login(bodyFormData);
 
       //  Checking no error on response
       if (!data.error) {

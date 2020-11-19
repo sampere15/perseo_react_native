@@ -12,16 +12,13 @@ import {
 // import mockData from "../../mockData/mockMedia";
 
 import axiosClient from "../../utils/axios";
-import { logoutAction } from "./authActions";
-import tokenManager from "../../utils/tokenManager";
+import { Endpoints } from "../../utils/global";
+// import tokenManager from "../../utils/tokenManager";
 
 //  Action for download files for the main page
 export function getFilesAction() {
   return async (dispatch) => {
     try {
-      //  Recover token
-      const token = await tokenManager.getTokenSecureStore();
-
       //  To show loading spineer
       dispatch({
         type: DOWNLOADING,
@@ -29,9 +26,7 @@ export function getFilesAction() {
 
       //  Preparing post data
       const bodyFormData = new FormData();
-      bodyFormData.append("token", token);
-      bodyFormData.append("device", "Android");
-      const { data } = await axiosClient.post("/GetView.php", bodyFormData);
+      const { data } = await axiosClient.post(Endpoints.MAIN, bodyFormData);
 
       //  My Mock Data for testing
       // const data = mockData;
