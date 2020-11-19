@@ -19,7 +19,7 @@ export default function MediaList({navigation, title, files, height = 180}) {
 
   return (
     <View>
-      <Text style={{fontSize: 15}}>{title}</Text>
+      <Text style={{fontSize: 18}}>{title}</Text>
       <FlatList 
         data={files}
         keyExtractor={(item, index) => index.toString()}

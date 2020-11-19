@@ -2,20 +2,14 @@ import React from "react";
 import PropTypes from "prop-types";
 import { StyleSheet, View, Text, ActivityIndicator } from "react-native";
 import { Overlay } from "react-native-elements";
+import { Global } from "../../utils/global";
 
 export default function LoadingScreen({ isVisible, text }) {
   return (
-    <Overlay
-      isVisible={isVisible}
-      windowBackgroundColor="rgba(0, 0, 0, 0.5)"
-      overlayBackgroundColor="transparent"
-      overlayStyle={styles.overlay}
-    >
-      <View style={styles.view}>
-        <ActivityIndicator size="large" color="#00a680" />
-        {text && <Text style={styles.text}>{text}</Text>}
-      </View>
-    </Overlay>
+    <View style={styles.view}>
+      <ActivityIndicator size="large" color="#000" />
+      {text && <Text style={styles.text}>{text}</Text>}
+    </View>
   );
 }
 
@@ -25,15 +19,6 @@ LoadingScreen.propTypes = {
 }
 
 const styles = StyleSheet.create({
-  overlay: {
-    height: 100,
-    width: 200,
-    backgroundColor: "#fff",
-    borderColor: "#00a680",
-    borderWidth: 2,
-    borderRadius: 10,
-  },
-
   view: {
     flex: 1,
     alignItems: "center",
@@ -41,7 +26,7 @@ const styles = StyleSheet.create({
   },
 
   text: {
-    color: "#00a680",
+    color: "#000",
     textTransform: "uppercase",
     marginTop: 10
   }
