@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { ScrollView, View, Text, StyleSheet, SafeAreaView, RefreshControl } from "react-native";
+import { ScrollView, View, Text, StatusBar, StyleSheet, SafeAreaView, RefreshControl } from "react-native";
 import MediaList from "../components/media/MediaList";
 import Loading from "../components/loading/Loading";
 
