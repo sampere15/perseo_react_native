@@ -6,6 +6,5 @@ export const DOWNLOADING_ERROR = "DOWNLOADING_ERROR";
 export const ITEM_FAV_ADD = "ITEM_FAV_ADD";
 export const ITEM_FAV_REMOVE = "ITEM_FAV_REMOVE";
 
-export const APPLYING_FILTER = "APPLYING_FILTER";
 export const APPLY_FILTER = "APPLY_FILTER";
 export const CLEAR_FILTER = "CLEAR_FILTER";

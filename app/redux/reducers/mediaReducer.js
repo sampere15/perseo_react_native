@@ -6,7 +6,6 @@ import {
   ITEM_FAV_REMOVE,
   APPLY_FILTER,
   CLEAR_FILTER,
-  APPLYING_FILTER
 } from "../actionTypes/mediaTypes";
 
 const initialState = {
@@ -25,11 +24,26 @@ export default function mediaReducer(state = initialState, action) {
         downloading: true,
       };
     case DOWNLOADING_SUCCESS:
+      //  Here we will organize the items by their section
+      filesBySection = {};
+      //  We organize files by their section
+      action.payload.contents.map( file => {
+        //  If we read section first time we will create the index an add the item to the array
+        if(filesBySection[file.section] === undefined) {
+          filesBySection[file.section] = [file];
+        }
+        //  If index exists we add the new item to the array
+        else {
+          filesBySection[file.section] = [...filesBySection[file.section], file];
+        }
+      });
+
       return {
         ...state,
         downloading: false,
         user: action.payload.user,
         files: action.payload.contents,
+        filesBySection: filesBySection
       };
     case DOWNLOADING_ERROR:
       return {
@@ -70,11 +84,6 @@ export default function mediaReducer(state = initialState, action) {
         filter: null,
         filesFiltered: null,
       };
-    // case APPLYING_FILTER: 
-    //   return{
-    //     ...state,
-    //     downloading: action.payload,
-    //   };
     default:
       return state;
   }

@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, ActivityIndicator } from 'react-native';
+import { Divider } from "react-native-elements";
 import axiosClient from "../utils/axios";
 import tokenManager from "../utils/tokenManager";
 import VideoComp from "../components/media/VideoComp";
 import ItemDetailsMainInfo from "../components/media/ItemDetailsMainInfo";
+import Toast from "react-native-simple-toast";
 
 //  Mock data for testing
-import mockData from "../mockData/mockMedia2";
+// import mockData from "../mockData/mockMedia2";
 
 export default function MediaDetails(props) {
   //  Extra the file id
@@ -19,25 +21,32 @@ export default function MediaDetails(props) {
   }, []);
   
   //  Function to download media info
-  const downloadMedia = async () => {
-    try {
-      setDownloading(true);
-      // const token = await tokenManager.getTokenSecureStore();
+  const downloadMedia = () => {
+    setDownloading(true);
 
-      // let formData = new FormData();
-      // formData.append("token", token);
-      // formData.append("device", "Android");
-      // formData.append("id", itemId);
+    tokenManager.getTokenSecureStore()
+      .then(token => {
+        let formData = new FormData();
+        formData.append("token", token);
+        formData.append("device", "Android");
+        formData.append("id", itemId);
 
-      // const {data} = await axiosClient.getMediaInfo(formData);
-      const data = mockData;
-      setItem(data);
-
-      setDownloading(false);
-    } catch (error) {
-      console.log(error.response);
-      setDownloading(false);
-    }
+        axiosClient.getMediaInfo(formData)
+          .then(({data}) => {
+            setItem(data);
+            setDownloading(false);
+          })
+          .catch(err => {
+            console.log(err.response);    
+            Toast.show("Ha ocurrido un error. Inténtelo más tarde", Toast.LONG);
+            setDownloading(false);
+          });
+      })
+      .catch(err => {
+        console.log(err.response);
+        Toast.show("Ha ocurrido un error. Inténtelo más tarde", Toast.LONG);
+        setDownloading(false);
+      });
   }
 
   //  We show indicator while info is downloaded
@@ -52,6 +61,7 @@ export default function MediaDetails(props) {
           url={item.url} 
         />
       </View>
+      <Divider style={{ backgroundColor: "grey" }} />
       <ItemDetailsMainInfo 
         item={item}
       />

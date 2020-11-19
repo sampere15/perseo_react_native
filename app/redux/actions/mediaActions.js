@@ -6,11 +6,10 @@ import {
   ITEM_FAV_REMOVE,
   APPLY_FILTER,
   CLEAR_FILTER,
-  APPLYING_FILTER
 } from "../actionTypes/mediaTypes";
 
 //  Import Mock data for testing
-import mockData from "../../mockData/mockMedia";
+// import mockData from "../../mockData/mockMedia";
 
 import axiosClient from "../../utils/axios";
 import { logoutAction } from "./authActions";
@@ -29,14 +28,13 @@ export function getFilesAction() {
       });
 
       //  Preparing post data
-      // const bodyFormData = new FormData();
-      // bodyFormData.append("token", token);
-      // bodyFormData.append("device", "Web");
-      // const { data } = await axiosClient.post("/GetView.php", bodyFormData);
-      // console.log(data);
+      const bodyFormData = new FormData();
+      bodyFormData.append("token", token);
+      bodyFormData.append("device", "Web");
+      const { data } = await axiosClient.post("/GetView.php", bodyFormData);
 
       //  My Mock Data for testing
-      const data = mockData;
+      // const data = mockData;
 
       dispatch({
         type: DOWNLOADING_SUCCESS,
