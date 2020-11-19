@@ -1,6 +1,5 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import Loading from "../loading/Loading";
 import ItemMediaList from "../media/ItemMediaList";
 import ResultList from "./ResultList";
 import { Dimensions } from 'react-native';
